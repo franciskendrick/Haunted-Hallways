@@ -45,23 +45,23 @@ class Player:
 
     def init_rect(self):
         size = self.images[self.direction][0].get_rect().size
-        self.rect = pygame.Rect((0, 0), size)
+        self.rect = pygame.Rect(player_data["starting_position"], size)
 
     # Draw
     def draw(self, display):
         images = self.images[self.direction]
 
         # Reset
-        if self.idx >= len(images) * 10:
+        if self.idx >= len(images) * 7:
             self.idx = 0
 
         # Draw player
-        img = images[self.idx // 10]
+        img = images[self.idx // 7]
         display.blit(img, self.rect)
 
         # Update
-        # if self.moving:
-        self.idx += 1
+        if self.moving:
+            self.idx += 1
 
     # Actions
     def movement(self):
@@ -87,7 +87,7 @@ class Player:
             self.move_y(self.vel)
             self.moving = True
             self.direction = "down"
-        
+
     def move_x(self, vel):
         self.rect.x += vel
 

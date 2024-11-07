@@ -28,6 +28,9 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+            if event.type == pygame.KEYUP:
+                player.moving = False
+
         player.movement()
 
         # Redraw
