@@ -39,8 +39,9 @@ class Player:
             self.images[name] = sprites
 
     def init_movement(self):
-        self.vel = 4
+        self.vel = 2
         self.direction = "down"
+        self.moving = False
 
     def init_rect(self):
         size = self.images[self.direction][0].get_rect().size
@@ -59,11 +60,39 @@ class Player:
         display.blit(img, self.rect)
 
         # Update
+        # if self.moving:
         self.idx += 1
 
     # Actions
-    def move(self):
-        pass
+    def movement(self):
+        keys = pygame.key.get_pressed()
+
+        # Left
+        if keys[pygame.K_a]:
+            self.move_x(-self.vel)
+            self.moving = True
+            self.direction = "left"
+        # Right
+        elif keys[pygame.K_d]:
+            self.move_x(self.vel)
+            self.moving = True
+            self.direction = "right"
+        # Up
+        elif keys[pygame.K_w]:
+            self.move_y(-self.vel)
+            self.moving = True
+            self.direction = "up"
+        # Down
+        elif keys[pygame.K_s]:
+            self.move_y(self.vel)
+            self.moving = True
+            self.direction = "down"
+        
+    def move_x(self, vel):
+        self.rect.x += vel
+
+    def move_y(self, vel):
+        self.rect.y += vel
 
     # Update
     def update(self):

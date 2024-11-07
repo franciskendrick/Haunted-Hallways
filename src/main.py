@@ -6,6 +6,8 @@ import sys
 
 # Redraw
 def redraw_game():
+    display.fill((0, 0, 0))
+
     # Draw entities
     player.draw(display)
 
@@ -25,6 +27,8 @@ def game_loop():
             # Check if user closed the game window
             if event.type == pygame.QUIT:
                 run = False
+
+        player.movement()
 
         # Redraw
         redraw_game()

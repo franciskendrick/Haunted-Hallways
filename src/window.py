@@ -15,7 +15,7 @@ class Window:
     def __init__(self):
         # Window
         self.rect = pygame.Rect(0, 0, 540, 540)
-        self.enlarge = 1  # temporary !!!
+        self.enlarge = 2  # temporary !!!
 
         # Framerate
         self.framerate = 60
