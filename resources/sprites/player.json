@@ -1,5 +1,5 @@
 {
-    "starting_position": [249, 480],
+    "starting_position": [250, 243],
     "hitbox_size": [],
     "hitbox_offset": [],
     "direction_order": ["down", "up", "right", "left"]

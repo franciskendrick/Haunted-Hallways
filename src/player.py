@@ -1,5 +1,4 @@
 from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis
-from window import window
 import pygame
 import json
 import os
@@ -18,6 +17,7 @@ with open(f"{resources_path}/sprites/player.json") as json_file:
 
 
 class Player:
+    # Initialize
     def __init__(self):
         self.init_images()
         self.init_movement()
@@ -64,27 +64,27 @@ class Player:
             self.idx += 1
 
     # Actions
-    def movement(self):
+    def movement(self, maze):
         keys = pygame.key.get_pressed()
 
         # Left
         if keys[pygame.K_a]:
-            self.move_x(-self.vel)
+            maze.move_x(-self.vel)
             self.moving = True
             self.direction = "left"
         # Right
         elif keys[pygame.K_d]:
-            self.move_x(self.vel)
+            maze.move_x(self.vel)
             self.moving = True
             self.direction = "right"
         # Up
         elif keys[pygame.K_w]:
-            self.move_y(-self.vel)
+            maze.move_y(-self.vel)
             self.moving = True
             self.direction = "up"
         # Down
         elif keys[pygame.K_s]:
-            self.move_y(self.vel)
+            maze.move_y(self.vel)
             self.moving = True
             self.direction = "down"
 
