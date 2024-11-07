@@ -26,8 +26,6 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
-        
-
         # Redraw
         redraw_game()
 

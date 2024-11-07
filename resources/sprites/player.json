@@ -1,0 +1,5 @@
+{
+    "hitbox_size": [],
+    "hitbox_offset": [],
+    "direction_order": ["down", "up", "right", "left"]
+}
