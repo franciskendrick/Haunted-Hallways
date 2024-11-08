@@ -10,10 +10,11 @@ def redraw_game():
     display.fill((0, 0, 0))
 
     # Draw entities
-    maze.draw(display, "floor")
-    maze.draw(display, "walls1")
+    # maze.draw(display, "floor")
+    # maze.draw(display, "walls1")
+    maze.draw(display)
     player.draw(display)
-    maze.draw(display, "walls2")
+    # maze.draw(display, "walls2")
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
