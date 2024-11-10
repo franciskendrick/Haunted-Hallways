@@ -67,7 +67,7 @@ class Player:
             self.idx += 1
 
     # Actions
-    def movement(self, maze):
+    def movement(self, maze, coins):
         keys = pygame.key.get_pressed()
 
         #
@@ -77,28 +77,31 @@ class Player:
         top = collided_cell.top > self.hitbox.top
         bottom = collided_cell.bottom < self.hitbox.bottom
 
-
         # Left
         if keys[pygame.K_a] and not (left and maze.rect_grid[y][x-1][1]):
             maze.move_x(-self.vel)
+            coins.move_x(-self.vel)
             self.moving = True
             self.direction = "left"
 
         # Right
         if keys[pygame.K_d] and not (right and maze.rect_grid[y][x+1][1]):
             maze.move_x(self.vel)
+            coins.move_x(self.vel)
             self.moving = True
             self.direction = "right"
 
         # Up
         if keys[pygame.K_w] and not (top and maze.rect_grid[y-1][x][1]):
             maze.move_y(-self.vel)
+            coins.move_y(-self.vel)
             self.moving = True
             self.direction = "up"
 
         # Down
         if keys[pygame.K_s] and not (bottom and y != 40 and maze.rect_grid[y+1][x][1] == 1):
             maze.move_y(self.vel)
+            coins.move_y(self.vel)
             self.moving = True
             self.direction = "down"
 

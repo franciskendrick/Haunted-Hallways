@@ -1,6 +1,7 @@
 from window import window
-from player import Player
 from maze import Maze
+from player import Player
+from coins import Coins
 import pygame
 import sys
 
@@ -13,6 +14,7 @@ def redraw_game():
     # maze.draw_rect(display)
     maze.draw(display, "floor")
     maze.draw(display, "walls1")
+    coins.draw(display)
     player.draw(display)
     maze.draw(display, "walls2")
 
@@ -21,7 +23,6 @@ def redraw_game():
     win.blit(resized_display, (0, 0))
 
     pygame.display.update()
-
 
 # Loops
 def game_loop():
@@ -36,7 +37,7 @@ def game_loop():
             if event.type == pygame.KEYUP:
                 player.moving = False
 
-        player.movement(maze)
+        player.movement(maze, coins)
 
         # Redraw
         redraw_game()
@@ -54,8 +55,9 @@ if __name__ == "__main__":
     pygame.init()
 
     # Initialize entities
-    player = Player()
     maze = Maze()
+    player = Player()
+    coins = Coins()
 
     # Initialize pygame window
     win_size = (
