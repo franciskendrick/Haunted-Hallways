@@ -34,6 +34,12 @@ class Maze:
         start_x, start_y = maze_data["starting_position"]
         self.rect_grid = [[[pygame.Rect((x * 32) + start_x, (y * 32) + start_y + 16, 32, 32), cell] 
                            for x, cell in enumerate(rows)] for y, rows in enumerate(self.maze_grid)]
+        
+        self.floor_rects = []
+        for y, row in enumerate(self.rect_grid):
+            for x, (maze_rect, cell_type) in enumerate(row):
+                if cell_type == 0:
+                    self.floor_rects.append([maze_rect, (x, y)])
 
     # Draw
     def draw(self, display, name):
@@ -47,11 +53,10 @@ class Maze:
 
     # Collision
     def check_collision(self, hitbox):
-        for y, row in enumerate(self.rect_grid):
-            for x, (maze_rect, cell_type) in enumerate(row):
-                # if cell_type == 0 and pygame.Rect.collidepoint(hitbox.center, maze_rect.center):
-                if cell_type == 0 and (hitbox.centerx >= maze_rect.left and hitbox.centerx <= maze_rect.right) and (hitbox.centery >= maze_rect.top and hitbox.centery <= maze_rect.bottom):
-                    return [maze_rect, (x, y)]
+        for floor_data in self.floor_rects:
+            maze_rect, _ = floor_data
+            if (hitbox.centerx >= maze_rect.left and hitbox.centerx <= maze_rect.right) and (hitbox.centery >= maze_rect.top and hitbox.centery <= maze_rect.bottom):
+                return floor_data
 
     # Action
     def move_x(self, vel):
