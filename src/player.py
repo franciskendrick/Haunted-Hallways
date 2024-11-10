@@ -71,40 +71,42 @@ class Player:
         keys = pygame.key.get_pressed()
 
         #
-        collided_cell, (x, y) = maze.check_collision(self.hitbox)
-        left = collided_cell.left > self.hitbox.left
-        right = collided_cell.right < self.hitbox.right
-        top = collided_cell.top > self.hitbox.top
-        bottom = collided_cell.bottom < self.hitbox.bottom
+        try:
+            collided_cell, (x, y) = maze.check_collision(self.hitbox)
+            left = collided_cell.left > self.hitbox.left
+            right = collided_cell.right < self.hitbox.right
+            top = collided_cell.top > self.hitbox.top
+            bottom = collided_cell.bottom < self.hitbox.bottom
 
-        # Left
-        if keys[pygame.K_a] and not (left and maze.rect_grid[y][x-1][1]):
-            maze.move_x(-self.vel)
-            coins.move_x(-self.vel)
-            self.moving = True
-            self.direction = "left"
+            # Left
+            if keys[pygame.K_a] and not (left and maze.rect_grid[y][x-1][1]):
+                maze.move_x(-self.vel)
+                coins.move_x(-self.vel)
+                self.moving = True
+                self.direction = "left"
 
-        # Right
-        if keys[pygame.K_d] and not (right and maze.rect_grid[y][x+1][1]):
-            maze.move_x(self.vel)
-            coins.move_x(self.vel)
-            self.moving = True
-            self.direction = "right"
+            # Right
+            elif keys[pygame.K_d] and not (right and maze.rect_grid[y][x+1][1]):
+                maze.move_x(self.vel)
+                coins.move_x(self.vel)
+                self.moving = True
+                self.direction = "right"
 
-        # Up
-        if keys[pygame.K_w] and not (top and maze.rect_grid[y-1][x][1]):
-            maze.move_y(-self.vel)
-            coins.move_y(-self.vel)
-            self.moving = True
-            self.direction = "up"
+            # Up
+            if keys[pygame.K_w] and not (top and maze.rect_grid[y-1][x][1]):
+                maze.move_y(-self.vel)
+                coins.move_y(-self.vel)
+                self.moving = True
+                self.direction = "up"
 
-        # Down
-        if keys[pygame.K_s] and not (bottom and y != 40 and maze.rect_grid[y+1][x][1] == 1):
-            maze.move_y(self.vel)
-            coins.move_y(self.vel)
-            self.moving = True
-            self.direction = "down"
+            # Down
+            elif keys[pygame.K_s] and not (bottom and y != 40 and maze.rect_grid[y+1][x][1] == 1):
+                maze.move_y(self.vel)
+                coins.move_y(self.vel)
+                self.moving = True
+                self.direction = "down"
+        except TypeError:
+            pass
 
-    # Update
-    def update(self):
-        pass
+        #
+        coins.check_collision(self.hitbox)

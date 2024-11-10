@@ -39,27 +39,34 @@ class Coins:
         self.idx = 0
         
         x_offset, y_offset = maze_data["starting_position"]
-        self.coin_rect = []
+        self.coin_rects = []
         for (x, y) in positions:
-            self.coin_rect.append([pygame.Rect((x * 32) - 32 + x_offset, (y * 32) + y_offset - 16, 32, 32), (x-1, y-1)])
+            self.coin_rects.append([pygame.Rect((x * 32) - 32 + x_offset, (y * 32) + y_offset - 16, 32, 32), (x-1, y-1)])
         
     def draw(self, display):
         if self.idx >= len(self.images) * 5:
             self.idx = 0
 
-        for rect, _ in self.coin_rect:
+        for rect, _ in self.coin_rects:
             img = self.images[self.idx // 5]
             display.blit(img, rect)
 
         self.idx += 1
 
     def move_x(self, vel):
-        for rect, _ in self.coin_rect:
+        for rect, _ in self.coin_rects:
             rect.x -= vel
 
     def move_y(self, vel):
-        for rect, _ in self.coin_rect:
+        for rect, _ in self.coin_rects:
             rect.y -= vel
 
     def check_collision(self, hitbox):
-        pass
+        removing_coin = None
+        for idx, (coin_rect, _) in enumerate(self.coin_rects):
+            if (coin_rect.centerx >= hitbox.left and coin_rect.centerx <= hitbox.right) and (coin_rect.centery >= hitbox.top and coin_rect.centery <= hitbox.bottom):
+                removing_coin = idx
+
+        if removing_coin != None:
+            self.coin_rects.pop(removing_coin)
+            print(f"Remaining Coins: {len(self.coin_rects)}")
