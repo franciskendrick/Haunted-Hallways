@@ -47,6 +47,9 @@ class Player:
         size = self.images[self.direction][0].get_rect().size
         self.rect = pygame.Rect(player_data["starting_position"], size)
 
+        x_offset, y_offset = player_data["hitbox_offset"]
+        self.hitbox = pygame.Rect((self.rect.x + x_offset, self.rect.y + y_offset), player_data["hitbox_size"])
+
     # Draw
     def draw(self, display):
         images = self.images[self.direction]
@@ -67,32 +70,37 @@ class Player:
     def movement(self, maze):
         keys = pygame.key.get_pressed()
 
+        #
+        collided_cell, (x, y) = maze.check_collision(self.hitbox)
+        left = collided_cell.left > self.hitbox.left
+        right = collided_cell.right < self.hitbox.right
+        top = collided_cell.top > self.hitbox.top
+        bottom = collided_cell.bottom < self.hitbox.bottom
+
+
         # Left
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and not (left and maze.rect_grid[y][x-1][1]):
             maze.move_x(-self.vel)
             self.moving = True
             self.direction = "left"
+
         # Right
-        elif keys[pygame.K_d]:
+        if keys[pygame.K_d] and not (right and maze.rect_grid[y][x+1][1]):
             maze.move_x(self.vel)
             self.moving = True
             self.direction = "right"
+
         # Up
-        elif keys[pygame.K_w]:
+        if keys[pygame.K_w] and not (top and maze.rect_grid[y-1][x][1]):
             maze.move_y(-self.vel)
             self.moving = True
             self.direction = "up"
+
         # Down
-        elif keys[pygame.K_s]:
+        if keys[pygame.K_s] and not (bottom and y != 40 and maze.rect_grid[y+1][x][1] == 1):
             maze.move_y(self.vel)
             self.moving = True
             self.direction = "down"
-
-    def move_x(self, vel):
-        self.rect.x += vel
-
-    def move_y(self, vel):
-        self.rect.y += vel
 
     # Update
     def update(self):

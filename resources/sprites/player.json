@@ -1,6 +1,6 @@
 {
     "starting_position": [250, 243],
-    "hitbox_size": [],
-    "hitbox_offset": [],
+    "hitbox_size": [18, 25],
+    "hitbox_offset": [13, 33],
     "direction_order": ["down", "up", "right", "left"]
 }

@@ -10,11 +10,11 @@ def redraw_game():
     display.fill((0, 0, 0))
 
     # Draw entities
-    # maze.draw(display, "floor")
-    # maze.draw(display, "walls1")
-    maze.draw(display)
+    # maze.draw_rect(display)
+    maze.draw(display, "floor")
+    maze.draw(display, "walls1")
     player.draw(display)
-    # maze.draw(display, "walls2")
+    maze.draw(display, "walls2")
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         int(window.rect.height * window.enlarge))
     win = pygame.display.set_mode(win_size)
     display = pygame.Surface(window.rect.size)
-    pygame.display.set_caption("Haunted Hallways")
+    pygame.display.set_caption("Haunted Hallwayas")
     clock = pygame.time.Clock()
 
     # Run the game
