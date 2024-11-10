@@ -18,6 +18,9 @@ def redraw_game():
     player.draw(display)
     maze.draw(display, "walls2")
 
+    #
+    window.draw(display, player.rect.center)
+
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
     win.blit(resized_display, (0, 0))
