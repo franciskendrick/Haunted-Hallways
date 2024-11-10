@@ -23,9 +23,9 @@ class Window:
         self.init_vignette()
 
     def init_vignette(self):
-        self.radius = 225
+        self.radius = 150
         self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)
-        self.mask.fill((0, 0, 0, 245))
+        self.mask.fill((0, 0, 0, 240))
 
     def draw(self, display, center):
         pygame.draw.circle(
