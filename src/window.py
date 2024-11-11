@@ -20,18 +20,28 @@ class Window:
         # Framerate
         self.framerate = 60
 
+        # Flashlight
         self.init_vignette()
+
+        # You Won
+        self.youwon_image = pygame.image.load(
+            f"{resources_path}/screens/youwon.png")
 
     def init_vignette(self):
         self.radius = 150
         self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)
         self.mask.fill((0, 0, 0, 240))
 
-    def draw(self, display, center):
+    def draw_flashlight(self, display, center):
+        #
         pygame.draw.circle(
             self.mask, (9, 10, 20, 0), center, self.radius)
         
         display.blit(self.mask, (0, 0))
+
+    def draw_youwon(self, display):
+        display.blit(self.youwon_image, (175, 90))
+
 
 
 window = Window()

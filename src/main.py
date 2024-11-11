@@ -10,16 +10,21 @@ import sys
 def redraw_game():
     display.fill((0, 0, 0))
 
-    # Draw entities
-    # maze.draw_rect(display)
-    maze.draw(display, "floor")
-    maze.draw(display, "walls1")
-    coins.draw(display)
-    player.draw(display)
-    maze.draw(display, "walls2")
+    if len(coins.coin_rects) > 0:
+        # Draw entities
+        # maze.draw_rect(display)
+        maze.draw(display, "floor")
+        maze.draw(display, "walls1")
+        coins.draw(display)
+        player.draw(display)
+        maze.draw(display, "walls2")
 
-    #
-    window.draw(display, player.rect.center)
+        #
+        window.draw_flashlight(display, player.rect.center)
+    else:  # player won
+        player.draw(display)
+
+        window.draw_youwon(display)
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
