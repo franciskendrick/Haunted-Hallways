@@ -18,6 +18,9 @@ with open(f"{resources_path}/maze/maze.json") as json_file:
 class Maze:
     # Initialize
     def __init__(self):
+        self.init()
+
+    def init(self):
         # Images
         self.images = {
             "floor": pygame.image.load(f"{resources_path}/maze/floor.png"),

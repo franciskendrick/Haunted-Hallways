@@ -10,21 +10,21 @@ import sys
 def redraw_game():
     display.fill((0, 0, 0))
 
-    if len(coins.coin_rects) > 0:
+    if status == "playing" or status == "menu":
         # Draw entities
-        # maze.draw_rect(display)
         maze.draw(display, "floor")
         maze.draw(display, "walls1")
         coins.draw(display)
         player.draw(display)
         maze.draw(display, "walls2")
 
-        #
+        # Draw flashlight effect
         window.draw_flashlight(display, player.rect.center)
-    else:  # player won
+    elif status == "win":
         player.draw(display)
-
         window.draw_youwon(display)
+    elif status == "lost":
+        window.draw_jumpscare(display)  # Assuming you have a "You Lost" screen
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -32,8 +32,11 @@ def redraw_game():
 
     pygame.display.update()
 
+
 # Loops
 def game_loop():
+    global status, start_time
+
     run = True
     while run:
         # Check game events
@@ -45,7 +48,35 @@ def game_loop():
             if event.type == pygame.KEYUP:
                 player.moving = False
 
-        player.movement(maze, coins)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and status == "menu":
+                    status = "playing"
+                    start_time = pygame.time.get_ticks()  # Start timer
+                if event.key == pygame.K_SPACE and status == "lost":
+                    status = "menu"
+                    maze.init()
+
+                    player.init_images()
+                    player.init_movement()
+                    player.init_rect()
+
+                    coins.init()
+
+        # Update game logic
+        if status == "playing":
+            player.movement(maze, coins)
+
+            # Check if player collected all coins
+            if len(coins.coin_rects) <= 0:
+                status = "win"
+
+            # Check for timer expiration
+            elapsed_time = pygame.time.get_ticks() - start_time
+            if elapsed_time >= 20000:  # 420000 ms = 7 minutes
+                status = "lost"
+
+        # Print status (for debugging)
+        print(status)
 
         # Redraw
         redraw_game()
@@ -67,13 +98,16 @@ if __name__ == "__main__":
     player = Player()
     coins = Coins()
 
+    status = "menu"
+    start_time = 0  # Initialize start time
+
     # Initialize pygame window
     win_size = (
         int(window.rect.width * window.enlarge),
         int(window.rect.height * window.enlarge))
     win = pygame.display.set_mode(win_size)
     display = pygame.Surface(window.rect.size)
-    pygame.display.set_caption("Haunted Hallwayas")
+    pygame.display.set_caption("Haunted Hallways")
     clock = pygame.time.Clock()
 
     # Run the game

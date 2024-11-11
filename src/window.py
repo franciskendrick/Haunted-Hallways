@@ -26,6 +26,10 @@ class Window:
         # You Won
         self.youwon_image = pygame.image.load(
             f"{resources_path}/screens/youwon.png")
+        
+        # Jumpscare
+        self.jumpscare_image = pygame.image.load(
+            f"{resources_path}/screens/jumpscare.png")
 
     def init_vignette(self):
         self.radius = 150
@@ -41,6 +45,9 @@ class Window:
 
     def draw_youwon(self, display):
         display.blit(self.youwon_image, (175, 90))
+
+    def draw_jumpscare(self, display):
+        display.blit(self.jumpscare_image, (25, 0))
 
 
 

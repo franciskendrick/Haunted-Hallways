@@ -18,6 +18,9 @@ with open(f"{resources_path}/maze/maze.json") as json_file:
 
 class Coins:
     def __init__(self):
+        self.init()
+
+    def init(self):
         positions = [
             [29, 2],
             [6, 5],
