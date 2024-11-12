@@ -19,6 +19,7 @@ class Maze:
     # Initialize
     def __init__(self):
         self.init()
+        self.init_mazegrid()
 
     def init(self):
         # Images
@@ -32,6 +33,7 @@ class Maze:
         size = self.images["floor"].get_rect().size
         self.rect = pygame.Rect(maze_data["starting_position"], size)
 
+    def init_mazegrid(self):
         # Maze Grid
         self.maze_grid = maze_data["maze_grid"]
         start_x, start_y = maze_data["starting_position"]
@@ -54,11 +56,14 @@ class Maze:
                 color = (128, 0, 0) if cell == 1 else (255, 255, 255)
                 pygame.draw.rect(display, color, rect)
 
+        pygame.draw.rect(display, (0, 255, 0), self.rect, 5)
+
     # Collision
     def check_collision(self, hitbox):
         for floor_data in self.floor_rects:
             maze_rect, _ = floor_data
             if (hitbox.centerx >= maze_rect.left and hitbox.centerx <= maze_rect.right) and (hitbox.centery >= maze_rect.top and hitbox.centery <= maze_rect.bottom):
+                self.prev_floordata = floor_data
                 return floor_data
 
     # Action

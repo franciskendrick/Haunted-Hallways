@@ -71,8 +71,10 @@ class Player:
         keys = pygame.key.get_pressed()
 
         #
-        try:
-            collided_cell, (x, y) = maze.check_collision(self.hitbox)
+        collision_data = maze.check_collision(self.hitbox)
+
+        if collision_data != None:
+            collided_cell, (x, y) = collision_data
             left = collided_cell.left > self.hitbox.left
             right = collided_cell.right < self.hitbox.right
             top = collided_cell.top > self.hitbox.top
@@ -105,8 +107,13 @@ class Player:
                 coins.move_y(self.vel)
                 self.moving = True
                 self.direction = "down"
-        except TypeError:
-            pass
+        else:
+            print(True)
+            _, (x, y) = maze.prev_floordata
+            maze.rect.x = x - 387 - 20
+            maze.rect.y = y - 1027 - 40
+            maze.init_mazegrid()
+            coins.init_mazegrid()
 
         #
         coins.check_collision(self.hitbox)

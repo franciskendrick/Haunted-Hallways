@@ -19,9 +19,10 @@ with open(f"{resources_path}/maze/maze.json") as json_file:
 class Coins:
     def __init__(self):
         self.init()
+        self.init_mazegrid()
 
     def init(self):
-        positions = [
+        self.positions = [
             [29, 2],
             [6, 5],
             [20, 6],
@@ -41,9 +42,10 @@ class Coins:
             pygame.image.load(f"{resources_path}/sprites/coin.png"))
         self.idx = 0
         
+    def init_mazegrid(self):
         x_offset, y_offset = maze_data["starting_position"]
         self.coin_rects = []
-        for (x, y) in positions:
+        for (x, y) in self.positions:
             self.coin_rects.append([pygame.Rect((x * 32) - 32 + x_offset, (y * 32) + y_offset - 16, 32, 32), (x-1, y-1)])
         
     def draw(self, display):

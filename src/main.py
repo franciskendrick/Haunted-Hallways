@@ -62,7 +62,7 @@ def game_loop():
 
                     coins.init()
 
-        # Update game logic
+        # Updatesssssssss game logic
         if status == "playing":
             player.movement(maze, coins)
 
@@ -72,11 +72,8 @@ def game_loop():
 
             # Check for timer expiration
             elapsed_time = pygame.time.get_ticks() - start_time
-            if elapsed_time >= 20000:  # 420000 ms = 7 minutes
+            if elapsed_time >= 360000:  # 420000 ms = 7 minutes
                 status = "lost"
-
-        # Print status (for debugging)
-        print(status)
 
         # Redraw
         redraw_game()
