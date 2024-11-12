@@ -108,12 +108,11 @@ class Player:
                 self.moving = True
                 self.direction = "down"
         else:
-            print(True)
             _, (x, y) = maze.prev_floordata
             maze.rect.x = x - 387 - 20
             maze.rect.y = y - 1027 - 40
             maze.init_mazegrid()
-            coins.init_mazegrid()
+            coins.update_rect()
 
         #
         coins.check_collision(self.hitbox)

@@ -17,9 +17,24 @@ with open(f"{resources_path}/maze/maze.json") as json_file:
 
 
 class Coins:
+    orig_positions = [
+        [29, 2],
+        [6, 5],
+        [20, 6],
+        [38, 7],
+        [25, 8],
+        [10, 15],
+        [23, 20],
+        [2, 24],
+        [40, 24],
+        [12, 25],
+        [22, 29],
+        [11, 36],
+        [21, 38]
+    ]
+
     def __init__(self):
         self.init()
-        self.init_mazegrid()
 
     def init(self):
         self.positions = [
@@ -42,10 +57,9 @@ class Coins:
             pygame.image.load(f"{resources_path}/sprites/coin.png"))
         self.idx = 0
         
-    def init_mazegrid(self):
         x_offset, y_offset = maze_data["starting_position"]
         self.coin_rects = []
-        for (x, y) in self.positions:
+        for (x, y) in self.orig_positions:
             self.coin_rects.append([pygame.Rect((x * 32) - 32 + x_offset, (y * 32) + y_offset - 16, 32, 32), (x-1, y-1)])
         
     def draw(self, display):
@@ -74,4 +88,11 @@ class Coins:
 
         if removing_coin != None:
             self.coin_rects.pop(removing_coin)
-            print(f"Remaining Coins: {len(self.coin_rects)}")
+            self.positions.pop(removing_coin)
+
+    def update_rect(self):
+        x_offset, y_offset = maze_data["starting_position"]
+        self.coin_rects = []
+        for (x, y) in self.positions:
+            self.coin_rects.append([pygame.Rect((x * 32) - 32 + x_offset, (y * 32) + y_offset - 16, 32, 32), (x-1, y-1)])
+        

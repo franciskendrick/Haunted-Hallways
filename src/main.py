@@ -38,6 +38,8 @@ def game_loop():
     global status, start_time
 
     run = True
+    last_print_time = 0  # Track the last time the status was printed
+
     while run:
         # Check game events
         for event in pygame.event.get():
@@ -52,17 +54,16 @@ def game_loop():
                 if event.key == pygame.K_SPACE and status == "menu":
                     status = "playing"
                     start_time = pygame.time.get_ticks()  # Start timer
+                    last_print_time = start_time  # Reset print timer
                 if event.key == pygame.K_SPACE and status == "lost":
                     status = "menu"
                     maze.init()
-
                     player.init_images()
                     player.init_movement()
                     player.init_rect()
-
                     coins.init()
 
-        # Updatesssssssss game logic
+        # Update game logic
         if status == "playing":
             player.movement(maze, coins)
 
@@ -72,8 +73,19 @@ def game_loop():
 
             # Check for timer expiration
             elapsed_time = pygame.time.get_ticks() - start_time
-            if elapsed_time >= 360000:  # 420000 ms = 7 minutes
+            if elapsed_time >= 360000:  # 360000 ms = 6 minutes
                 status = "lost"
+
+            # Print remaining time and coins every second
+            current_time = pygame.time.get_ticks()
+            if current_time - last_print_time >= 1000:  # 1000 ms = 1 second
+                remaining_time_sec = (360000 - elapsed_time) // 1000
+                minutes = remaining_time_sec // 60
+                seconds = remaining_time_sec % 60
+                remaining_coins = len(coins.coin_rects)
+
+                print(f"{minutes:02}:{seconds:02} | Remaining Coins: {remaining_coins}")
+                last_print_time = current_time  # Update the last print time
 
         # Redraw
         redraw_game()
